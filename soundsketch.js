@@ -6,8 +6,6 @@ let fmSynth;
 let pluckSynth;
 let synth;
 
-let counter;
-
 let Notes=[];
 
 let playnoteR;
@@ -28,16 +26,11 @@ var PixelSound = false;
 var BPM = 100;
 var BPMMin = 10;
 var BPMMax = 400;
-var Rchannel = true;
-var Gchannel = true;
-var Bchannel = true;
+var Rchannel = false;
+var Gchannel = false;
+var Bchannel = false;
 var Achannel = false;
 var Direction = false; 
-
-//preload images
-// function preload(){
-//   img= loadImage('test.jpg');
-// }
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -46,16 +39,13 @@ var Direction = false;
 function setup() {
 
   //create GUI on or off (0 or 1)
- if (gui_lock == 0){
+
   // Create Layout GUI
   gui_controls = createGui('Listen to the Image').setPosition(windowWidth-220,windowHeight-220);
 
   //p5.gui.js automatically identifies the type of UI element based on variable value. so we simply add them to our GUI.
   gui_controls.addGlobals('PixelSound', 'BPM','Rchannel','Gchannel','Bchannel','Achannel','Direction'); // Adding UI elements
-
-  gui_lock++;
-  }  
-
+  
   //notes C to B 
   let notes = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B']
   
@@ -66,7 +56,6 @@ function setup() {
     }
   }
 
-  counter=0;
   
   //call instruments from tone.js 
   //can be customized by inserting key value mapping 
@@ -84,12 +73,11 @@ function setup() {
 //change speed
   loopBeat = new Tone.Loop(song,'16n');
   
-
   // using transport in BPM slider
   Tone.Transport.bpm.value = BPM;
 
-  Tone.Transport.start();
-  loopBeat.start(0);
+  Tone.Transport.start(); 
+  loopBeat.start(0); 
   
   createCanvas(300, 300);
   img = loadImage('test2.png');
@@ -101,6 +89,8 @@ function setup() {
   // input = createFileInput(handleFile);
   // input.position(0, 0);
   
+  Tone.start()
+	console.log('audio is ready')
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -111,6 +101,7 @@ function setup() {
 function song(time) {
 
   if (PixelSound==true){
+
     if(Rchannel==true){
       polySynth.triggerAttackRelease(playnoteR, '32n', time);
     }
@@ -127,6 +118,7 @@ function song(time) {
 //   console.log(time);
 
 }
+
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -215,8 +207,8 @@ function draw() {
   //11-15: D1
   //16-20:D#1
   
-  playnoteR= Notes[floor(R/5.33)];
-  playnoteG= Notes[floor(G/5.33)];
+  playnoteR= Notes[floor(R/5.33)];//example note is 'C1'
+  playnoteG= Notes[floor(G/5.33)];// 'E#4'
   playnoteB= Notes[floor(B/5.33)];
   playnoteA= Notes[floor(A/5.33)];
     
