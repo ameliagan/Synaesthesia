@@ -1,2 +1,2 @@
-# synaesthesia
+# Synaesthesia
 Hearing Portraits
